@@ -9,7 +9,17 @@ async function bootstrap() {
 
   app.useGlobalPipes(new ValidationPipe());
   app.use(express.json());
-  app.enableCors();
+  app.enableCors({
+    origin: true, // 開発中は全てのオリジンを許可
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+    credentials: true,
+    allowedHeaders: [
+      'Content-Type',
+      'Accept',
+      'Authorization',
+      'Apollo-Require-Preflight', // Apollo Client用
+    ],
+  });
 
   await app.listen(3000);
 }
